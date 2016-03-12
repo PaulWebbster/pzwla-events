@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#currentEvent{{ event.acronym }}"><span class="glyphicon glyphicon-map-marker">
+            </span>{{ event.short_name|upper }}</a>
+        </h4>
+    </div>
+    <div id="currentEvent{{ event.acronym }}" class="panel-collapse collapse in">
+        <div class="panel-body">
+            <table class="table">
+                {% for entry in event_menu %}
+                <tr>
+                    <td>
+                        <span class="glyphicon {{ entry.icon }}"></span><a href="{{ entry.href }}">{{ entry.name }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>

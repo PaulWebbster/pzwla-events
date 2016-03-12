@@ -1,0 +1,173 @@
+{% load i18n staticfiles cms_tags zawody_extras %}
+
+
+<div class="col-md-3">
+<div class="panel panel-default">
+    <div class="panel-heading"><b>MENU</b></div>
+    <div class="panel-body">
+
+        <!-- Panele Menu -->
+
+        <div class="panel-group" id="accordion">
+            <!-- Opcjonalny panel przeglądanych zawodów -->
+            {% if active_menu == "event_details" and field_event.preferable == False %}
+                {% show_sub_menu active_menu event=field_event %}
+            {% endif %}
+
+            <!-- Panel Kalendarze -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#kalendarze"><span class="glyphicon glyphicon-calendar">
+                        </span>KALENDARZ - {{ default_calendar_year }}</a>
+                    </h4>
+                </div>
+                {% if active_menu|is_calendar_view %}
+                <div id="kalendarze" class="panel-collapse collapse in">
+                {% else %}
+                <div id="kalendarze" class="panel-collapse collapse">
+                {% endif %}
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-menu-right"></span><a href=http://{{ request.get_host }}/zawody/kalendarz/{{ default_calendar_year }}/>Wszystkie zawody</a>
+                                    <span class="badge">{{ all_calendar_events_count }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-menu-right"></span><a href=http://{{ request.get_host }}/zawody/kalendarz/archiwum/>Kalendarze - wszystkie lata</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Koniec Panel Kalendarz -->
+
+            <!-- Panel Wyniki -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-list">
+                        </span>WYNIKI - {{ default_result_year }}</a>
+                    </h4>
+                </div>
+                {% if active_menu|is_result_view %}
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                {% else %}
+                <div id="collapseTwo" class="panel-collapse collapse">
+                {% endif %}
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-menu-right"></span><a href="http://{{ request.get_host }}/zawody/wyniki/{{ default_result_year }}/">Wszystkie zawody</a>
+                                    {% if all_results_events_count > 0 %}
+                                        <span class="label label-info">{{ all_results_events_count }}</span>
+                                    {% else %}
+                                        <span class="label label-danger">{{ all_results_events_count }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-menu-right"></span><a href=http://{{ request.get_host }}/zawody/wyniki/archiwum/>Wyniki - wszystkie lata</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panele zawody wyróżnione -->
+            {% for special in special_events %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ special.acronym }}">
+                            <span class="glyphicon glyphicon-map-marker"></span>{{ special.short_name|upper }}</a>
+                    </h4>
+                </div>
+                {% if field_event.acronym == special.acronym %}
+                <div id="collapse{{ special.acronym }}" class="panel-collapse collapse in">
+                {% else %}
+                    <div id="collapse{{ special.acronym }}" class="panel-collapse collapse">
+                {% endif %}
+                    <div class="panel-body">
+                        <table class="table">
+                            <!-- MENU INFORMACJE -->
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-info-sign"></span><a href="http://{{ request.get_host }}/zawody/{{ special.acronym }}">Informacje</a>
+                                </td>
+                            </tr>
+                            <!-- MENU KADRA -->
+                            {% if special.team_file %}
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-user"></span><a href="{{ MEDIA_URL }}{{ special.team_file }}">Nasza kadra</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <!-- MENU ZAPISY -->
+                            {% if not special.is_from_past %}
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-check"></span><a href="{{ special.entries }}">Zapisy</a>
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <!-- MENU WYNIKI -->
+                            {% if special.is_from_past %}
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-list"></span>
+                                    {% if special.results_file %}
+                                        <a href="{{ MEDIA_URL }}{{ special.results_file }}">Wyniki</a>
+                                    {% elif special.results %}
+                                        <a href="{{ special.results }}">Wyniki</a>
+                                    {%endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <!-- MENU HARMONOGRAM -->
+                            {% if special.timetable or special.timetable_file %}
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-time"></span>
+                                    {% if special.timetable_file %}
+                                        <a href="{{ MEDIA_URL }}{{ special.timetable_file }}">Program</a>
+                                    {% else %}
+                                        <a href="{{ special.timetable }}">Program</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                            <!-- MANU KOMUNIKAT TECHNICZNY -->
+                            {% if special.entry_booklet or special.entry_booklet_file %}
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-book"></span>
+                                    {% if special.timetable_file %}
+                                        <a href="{{ MEDIA_URL }}{{ special.entry_booklet_file }}">Komunikat Organizacyjny</a>
+                                    {% else %}
+                                        <a href="{{ special.entry_booklet }}">Komunikat Organizacyjny</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div> <!-- Panel-group end group -->
+    </div> <!-- Panel-body end group -->
+</div> <!-- Panel menu end div -->
+
+{% include "zawody/next_meeting.html" %}
+{% include "zawody/last_results.html" %}
+</div>
