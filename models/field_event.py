@@ -1,80 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from django.core.validators import RegexValidator
 from django.db import models
 from geoposition.fields import GeopositionField
-from cms.models import CMSPlugin
 from datetime import datetime
-from django.utils.timezone import make_aware
-from django.utils import timezone
+from django.utils.text import slugify
 import pytz
 from filer.models import Folder
+from event_place import EventPlace
+from organizer import Organizer
+from event_file import EventFile
 
 utc = pytz.UTC
-
-
-class EventPlace(models.Model):
-
-    class Meta:
-        verbose_name = "Miejsce zawodów"
-        verbose_name_plural = "Miejsca zawodów"
-
-    city = models.CharField("Miasto", max_length=100)
-    country = models.CharField("Kraj", max_length=100)
-    stadium = models.CharField("Stadion", max_length=100, blank=True)
-
-    def __unicode__(self):
-        return u"%s in %s (%s)" % (self.stadium, self.city, self.country)
-
-
-class Organizer(models.Model):
-
-    class Meta:
-        verbose_name = "Organizator"
-        verbose_name_plural = "Organizatorzy"
-
-    name = models.CharField("Nazwa organizatora", max_length=300)
-    street = models.CharField("Ulica", max_length=300)
-    postal_code = models.CharField("Kod pocztowy", max_length=10, blank=True)
-    city = models.CharField("Miasto", max_length=100)
-    country = models.CharField("Kraj", max_length=100)
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Numer telefonu musi byc w następującym formacie: "
-                                                                   "'+999999999'. Maksymalna liczba cyfr to 15.")
-    phone_number = models.CharField("Telefon", validators=[phone_regex], blank=True, max_length=16)
-    fax_number = models.CharField("Fax", validators=[phone_regex], blank=True, max_length=16)
-
-    def __unicode__(self):
-        return u"%s" % self.name
-
-
-class EventCategory(models.Model):
-
-    class Meta:
-        verbose_name = "Kategoria zawodów"
-        verbose_name_plural = "Kategorie zawodów"
-
-    name = models.CharField("Nazwa kategorii", max_length=300)
-
-    def name_to_acronym(self):
-        acronym = self.name.replace(" ", "_").lower()
-        acronym = acronym.replace(
-            u"ą", "a").replace(
-            u"ę", "e").replace(
-            u"ć", "c").replace(
-            u"ł", "l").replace(
-            u"ń", "n").replace(
-            u"ó", "o").replace(
-            u"ś", "s").replace(
-            u"ź", "z").replace(
-            u"ż", "z")
-
-        return acronym
-
-    acronym = property(name_to_acronym)
-
-    def __unicode__(self):
-        return u"%s" % self.name
 
 
 class FieldEvent(models.Model):
@@ -84,15 +21,11 @@ class FieldEvent(models.Model):
         verbose_name_plural = "Zawody"
 
     name = models.CharField("Nazwa zawodów", max_length=300)
-    short_name = models.CharField("Skrócona nazwa zawodów", max_length=50, blank=True,
+    short_name = models.CharField("Skrócona nazwa zawodów", max_length=50,
                                   help_text="Skrócona nazwa zawodów wyświetlana w menu oraz alternatywnie w przypadku "
                                   "braku loga na stronie informacyjnej zawodów. (Maximum 50 znaków)")
-    acronym_regex = RegexValidator(regex=r'^[A-Z]{4,11}\d{4}[A-Z]{2,3}$')
-    acronym = models.CharField("Akronim", validators=[acronym_regex], unique=True, max_length=18, help_text="Unikalny "
-                               "akronim opisujący zawody. Używany przez stronę do nawigacji. Akronim powinien składać "
-                               "się z od 4-11 liter oznaczających miejsce zawodów, 4 cyfr oznaczających rok oraz 2-3 "
-                               "opisujących rangę zawodów. Przykład Halowe Mistrzostwa Polski w Toruniu w roku 2016 "
-                               "można opisać jako TORUN2015HMP.")
+    slug = models.SlugField(max_length=50, editable=False)
+    in_calendar = models.BooleanField("Dodać do kalendarza zawodów?")
     place = models.ForeignKey(EventPlace, verbose_name="Miejsce zawodów")
     date_time = models.DateTimeField("Data/godzina rozpoczęcia zawodów")
     end_date_time = models.DateTimeField("Data/godzina zakończenia zawodów", blank=True,
@@ -122,7 +55,6 @@ class FieldEvent(models.Model):
                                                                 "kadry narodowej startujących w zawodach "
                                                                 "międzynarodowych")
     organizer = models.ForeignKey(Organizer, blank=True, verbose_name="Organizator")
-    event_category = models.ManyToManyField(EventCategory)
     preferable = models.BooleanField("Wyróżniony", default=False, help_text="Jeżeli zawody są oznaczone jako wyróżnione"
                                                                             " to wyświetlane są zawsze jako wydarzenia "
                                                                             "nadchodzące.")
@@ -132,14 +64,21 @@ class FieldEvent(models.Model):
     def save(self, *args, **kwargs):
         if not self.end_date_time:
             self.end_date_time = self.date_time
-        if not self.event_folder:
-            folder = Folder(parent=Folder.objects.all().filter(id=47)[0], name=self.short_name)
+
+        try:
+            self.event_folder
+        except:
+            folder = Folder(parent=Folder.objects.all().filter(id=1)[0], name=self.short_name)
             folder.save()
             self.event_folder = folder
+
+        if not self.id:
+            self.slug = slugify(unicode(self.short_name))
+
         super(FieldEvent, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return u"Zawody: {nazwa}, Akronim: {akronim}".format(nazwa=self.name, akronim=self.acronym)
+        return u"Zawody: {nazwa}".format(nazwa=self.name)
 
     def date_from_past(self):
         now = datetime.now().replace(tzinfo=utc)
@@ -150,26 +89,10 @@ class FieldEvent(models.Model):
 
     is_from_past = property(date_from_past)
 
+    @property
+    def get_event_files(self):
+        event_files = []
+        for fp in self.event_folder.files:
+            event_files.append(EventFile.objects.get(id=fp.id))
 
-def year_choices():
-    year_choice = []
-
-    for year in range(1980, (datetime.now().year+1)):
-        year_choice.append((year, year))
-
-
-class EventsGlobalSettings(models.Model):
-
-    class Meta:
-        verbose_name = "Ustawienia globalne zawodów"
-        verbose_name_plural = "Ustawienia globalne zawodów"
-
-    calendar_year = models.IntegerField("rok kalendarza", max_length=4, choices=year_choices(),
-                                        default=datetime.now().year)
-    results_year = models.IntegerField("rok wyników", max_length=4, choices=year_choices(), default=datetime.now().year)
-
-    def __unicode__(self):
-        return u"Rok kalendarza: {rok_kalendarz}, Rok wyników: {rok_wyniki}".format(rok_kalendarz=self.calendar_year,
-                                                                                    rok_wyniki=self.results_year)
-
-
+        return event_files

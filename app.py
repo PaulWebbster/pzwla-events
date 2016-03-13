@@ -3,6 +3,6 @@
 
 from django.apps import AppConfig
 
-class ZawodyConfig(AppConfig):
-    name = "zawody"
+class PzwlaEventsConfig(AppConfig):
+    name = "pzwla_events"
     verbose_name = "Modul zawody"

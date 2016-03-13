@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
-from models import FieldEvent, EventCategory, EventsGlobalSettings
-from django.views.generic.list import ListView
 from datetime import tzinfo, timedelta, datetime
+
+from django.views.generic import DetailView
+from django.views.generic.list import ListView
+
+from models import FieldEvent, EventCategory, EventsGlobalSettings
 
 ZERO = timedelta(0)
 
@@ -151,6 +154,11 @@ class EventCalendarView(CompetitionViewBase):
             context['event_category'] = "Wszystkie zawody"
 
         return context
+
+
+class EventDetailView(DetailView):
+    model = FieldEvent
+    context_object_name = 'field_event'
 
 
 class FieldEventDetailsView(CompetitionViewBase):

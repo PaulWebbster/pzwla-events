@@ -2,13 +2,11 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import FieldEvent
-from models import EventPlace
-from models import Organizer
-from models import EventCategory
-from models import EventsGlobalSettings
-from django import forms
-from django.db import models
+from models.field_event import FieldEvent
+from models.field_event import EventPlace
+from models.field_event import Organizer
+from models.field_event import EventCategory
+from models.field_event import EventsGlobalSettings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 
@@ -29,7 +27,7 @@ class FieldEventAdmin(admin.ModelAdmin):
     fieldsets = [
         ("Informacje podstawowe - Pola wymagane", {
             'classes': ('extrapretty',),
-            'fields': ['name', 'short_name', 'place', 'organizer', 'preferable', 'acronym']}),
+            'fields': ['name', 'short_name', 'place', 'organizer', 'preferable', 'in_calendar']}),
         ("Data zawodów - Pola wymagane", {
             'classes': ('collapse',),
             'fields': ['date_time', 'end_date_time']}),
@@ -50,7 +48,7 @@ class FieldEventAdmin(admin.ModelAdmin):
     event_date.short_description = "Data zawodów"
 
     def add_files_folder(self, obj):
-        return format_html('<a href="http://pzwla.pl/pl/admin/filer/folder/%s/list/">Dodaj pliki</a>' % obj.event_folder.id)
+        return format_html('<a href="/admin/filer/folder/%s/list/">Dodaj pliki</a>' % obj.event_folder.id)
         show_firm_url.allow_tags = True
 
     add_files_folder.short_description = "Pliki"
