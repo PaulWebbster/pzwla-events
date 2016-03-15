@@ -1,79 +1,85 @@
-{% extends "pzwla_base.html" %}
-{% load i18n staticfiles %}
-{% load cms_tags %}
-{% load zawody_extras %}
+{% extends "pzwla_events/skeleton.html" %}
+{% load i18n staticfiles sekizai_tags cms_tags %}
 
 {% block title %}{% page_attribute "page_title" %} - WYNIKI - {{ event_category|upper }} - {{ events_year }}{% endblock title %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/bootstrapfixes.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}zawody/styles/main-timeline.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}pzwla_events/styles/main-timeline.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/timeline.css">
 {% endblock extra_css %}
-{% block content %}
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-7">
-            <div class="panel panel-default">
-                <div class="panel-heading"><b>WYNIKI - {{ event_category|upper }} - {{ events_year }}</b></div>
-                <div class="panel-body">
-                    <div class="page-header">
-                        <h1 id="" style="text-align: center">Wyniki rok {{ events_year }} - {{ event_category }}</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-10">
-                            {% if events_year|is_future_year %}
-                                <h4>Hola, hola, wyniki które chciałbyś obejrzeć są z przyszłości!
-                                    {{ events_year|future_date_invitation }}.</h4>
-                            {% elif not events_results.months_events %}
 
-                            {% else %}
-                            <div id="time-line">
-                            {% for month in events_results.months_order %}
-                                {% if month in events_results.months_events %}
-                                    <div class="row time-line-movement-month time-line-movement-top">
-                                        <div class="time-line-badge-month time-line-filter-movement">
-                                            {{ month }}
-                                        </div>
-                                    </div>
-                                    {% for key, events in events_results.months_events.items %}
-                                        {% if key == month %}
-                                            {% for event in events %}
-                                                <div class="row time-line-movement-event">
+{% block events-content %}
+<div class="panel panel-default">
+    <div class="panel-heading"><b>WYNIKI - {{ event_category|upper }} - {{ events_year }}</b></div>
+    <div class="panel-body">
+        <div class="page-header">
+            <h1 id="" style="text-align: center">Wyniki rok {{ events_year }} - {{ event_category }}</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+                {% if not events_results.months_events %}
 
-                                                <div class="time-line-badge">
-                                                    <span class="time-line-balloon-date-day">{{ event.date_time|date:"d" }}</span>
-                                                    <span class="time-line-balloon-date-month">{{ event.date_time|date:"b" }}</span>
-                                                </div>
+                {% else %}
+                <div id="time-line">
+                    {% for month in events_results.months_order %}
+                        {% if month in events_results.months_events %}
+                            <div class="row time-line-movement-month time-line-movement-top">
+                                <div class="time-line-badge-month time-line-filter-movement">
+                                    {{ month }}
+                                </div>
+                            </div>
+                            {% for key, events in events_results.months_events.items %}
+                                {% if key == month %}
+                                    {% for event in events %}
+                                        <div class="row time-line-movement-event">
 
-                                                <div class="col-sm-12  time-line-item">
-                                                    <div class="row">
-                                                        <div class="col-sm-offset-1 col-sm-11">
-                                                            <div class="time-line-panel debits">
-                                                                <ul class="time-line-panel-ul">
-                                                                    <li><a href="{{ event.results }}"><span class="importo">{{ event.name }}</span></a></li>
-                                                                    <li><span class="causale">{{ event.place.city }}, {{ event.place.country }}</span> </li>
-                                                                    <li><p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ event.date_time|date:"d F Y" }}</small></p> </li>
-                                                                </ul>
-                                                            </div>
+                                            <div class="time-line-badge">
+                                                <span class="time-line-balloon-date-day">{{ event.date_time|date:"d" }}</span>
+                                                <span class="time-line-balloon-date-month">{{ event.date_time|date:"b" }}</span>
+                                            </div>
+
+                                            <div class="col-sm-12  time-line-item">
+                                                <div class="row">
+                                                    <div class="col-sm-offset-1 col-sm-11">
+                                                        <div class="time-line-panel debits">
+                                                            <ul class="time-line-panel-ul">
+                                                                <li><span class="importo">{{ event.name }}</span></li>
+                                                                <li><span class="causale">{{ event.place.city }}, {{ event.place.country }}</span> </li>
+                                                                <li>
+                                                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> {{ event.date_time|date:"d F Y" }}</small></p>
+                                                                    <p align="right">
+                                                                    {% if event.results_file or event.results %}
+                                                                        {% if event.results_file %}
+                                                                            <small class="text-muted"><i class="glyphicon glyphicon-file"></i>
+                                                                                <a href="{{ event.results_file.url }}">PLIK PDF</a></small>
+                                                                        {% endif %}
+                                                                        {% if event.results %}
+                                                                            <span></span>
+                                                                            <small class="text-muted"><i class="glyphicon glyphicon-th-list"></i>
+                                                                                <a href="{{ event.results }}">WWW</a></small>
+                                                                        {% endif %}
+                                                                        {% else %}
+                                                                            </i>BRAK WYNIKÓW</small>
+                                                                        {% endif %}
+                                                                    </p>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            {% endfor %}
-                                        {% endif %}
+                                        </div>
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-md-1"></div>
-                    </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
+                {% endif %}
             </div>
         </div>
-        {% include "zawody/menu.html" %}
-        <div class="col-md-1"></div>
     </div>
-{% endblock content %}
+</div>
+
+{% endblock events-content %}

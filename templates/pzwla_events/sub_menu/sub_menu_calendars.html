@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#kalendarze"><span class="glyphicon glyphicon-calendar">
+            </span>KALENDARZ</a>
+        </h4>
+    </div>
+    {% if active_menu %}
+    <div id="kalendarze" class="panel-collapse collapse in">
+    {% else %}
+    <div id="kalendarze" class="panel-collapse collapse">
+    {% endif %}
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href=/zawody/kalendarz/{{ default_calendar_year }}>Kalendarz - {{ default_calendar_year }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href=/zawody/kalendarz/archiwum/>Kalendarze - wszystkie lata</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

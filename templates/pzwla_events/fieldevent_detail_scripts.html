@@ -1,0 +1,62 @@
+{% load i18n staticfiles sekizai_tags cms_tags %}
+
+{% addtoblock "js" %}
+    <script src="{% static "js/counter/flipclock.js" %}"></script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw-UI5JyYBzeRwEk07JOwoH5xLjad0OwY"></script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script type="text/javascript">
+        var clock;
+
+        $(document).ready(function() {
+
+            // Grab the current date
+            var currentDate = new Date();
+
+            // Set some date in the past. In this case, it's always been since Jan 1
+            var pastDate  = new Date("{{ miliseconds }}");
+
+            // Calculate the difference in seconds between the future and current date
+            var diff = pastDate.getTime() / 1000 - currentDate.getTime() / 1000;
+
+            // Instantiate a coutdown FlipClock
+            clock = $('.clock').FlipClock(diff, {
+                clockFace: 'DailyCounter',
+                countdown: true
+            });
+
+        });
+    </script>
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script>
+        function initialize() {
+
+            var latLang = new google.maps.LatLng({{ field_event.position.latitude|stringformat:"f" }}, {{ field_event.position.longitude|stringformat:"f" }});
+
+            var mapCanvas = document.getElementById('map');
+
+            var mapOptions = {
+                center: latLang,
+                zoom: 12,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var mapa = new google.maps.Map(mapCanvas, mapOptions);
+
+            var marker_options = {
+                position: latLang,
+                map: mapa,
+                title: 'stadion'
+            };
+
+            var marker = new google.maps.Marker(marker_options)
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+{% endaddtoblock %}

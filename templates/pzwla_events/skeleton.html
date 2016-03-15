@@ -1,0 +1,21 @@
+{% extends "pzwla_base.html" %}
+{% load i18n staticfiles sekizai_tags cms_tags %}
+
+{% block content %}
+    <div class="row">
+        <!-- LEFT MARGIN -->
+        <div class="col-md-1"></div>
+        <!-- MAIN CONTENT -->
+        <div class="col-md-7">
+            {% block events-content %}
+            {% endblock events-content %}
+        </div>
+        <!-- SIDEBAR -->
+        <div class="col-md-3">
+            {% include "pzwla_events/menu.html" %}
+        </div>
+        <!-- RIGHT MARGIN -->
+        <div class="col-md-1"></div>
+    </div>
+
+{% endblock content %}

@@ -1,186 +1,136 @@
-{% extends "pzwla_base.html" %}
+{% extends "pzwla_events/skeleton.html" %}
 {% load i18n staticfiles sekizai_tags cms_tags %}
 
 {% block title %}{% page_attribute "page_title" %} - {{ field_event.short_name|upper }}{% endblock title %}
 
-{% block content %}
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-7">
+{% block events-content %}
+<div class="panel panel-default">
 
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>{{ field_event.short_name|upper }}</b></div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        {% if field_event.logo %}
-                            <a href="{{ field_event.site }}">
-                            <img src="{{ MEDIA_URL }}{{ field_event.logo }}" alt="{{ field_event.acronym }}"
-                                 class="img-thumbnail"></a>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h1>{{ field_event.name }}</h1>
-                    </div>
-                </div>
-                {% if not field_event.is_from_past %}
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h2>Do zawodów pozostało:</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8 text-center">
-                        <div id="buttons">
-                        <div class="clock flip-clock-wrapper center-dupper">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                </div>
-                {% else %}
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h2>Zawody już się odbyły</h2>
-                    </div>
-                </div>
+    <div class="panel-heading"><b>{{ field_event.short_name|upper }}</b></div>
+
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {% if field_event.logo %}
+                    <a href="{{ field_event.site }}">
+                    <img src="{{ MEDIA_URL }}{{ field_event.logo }}" alt="{{ field_event.acronym }}"
+                         class="img-thumbnail"></a>
                 {% endif %}
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h2>Informacje o zawodach:</h2>
-                        <h4>Data zawodów: {{ field_event.date_time }}</h4>
-                        {% if field_event.place.stadium %}
-                        <h4>{{ field_event.place.stadium }} - {{ field_event.place.city }}, {{ field_event.place.country }}</h4>
-                        {% else %}
-                        <h4>{{ field_event.place.city }}, {{ field_event.place.country }}</h4>
-                        {% endif %}
-                        <div class="btn-group" role="group" aria-label="...">
-                        <!-- Guzik zapisy -->
-                        {% if not field_event.is_from_past and field_event.entries %}
-                            <a href="{{ field_event.entries }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
-                        {% endif %}
-                        <!-- Guzik harmonogram zawodów -->
-                        {% if field_event.timetable_file %}
-                            <a href="{{ MEDIA_URL }}{{ field_event.timetable_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>
-                        {% elif field_event.timetable %}
-                            <a href="{{ field_event.timetable }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>
-                        {% endif %}
-                        <!-- Guzik wyniki zawodów -->
-                        {% if field_event.is_from_past %}
-                            {% if field_event.results_file %}
-                                <a href="{{ MEDIA_URL }}{{ field_event.results_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> Wyniki</button></a>
-                            {% elif field_event.results %}
-                                <a href="{{ field_event.results }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> Wyniki</button></a>
-                            {% endif %}
-                        {% endif %}
-                        <!-- Guzik komunikat techniczny -->
-                        {% if field_event.entry_booklet_file %}
-                            <a href="{{ MEDIA_URL }}{{ field_event.entry_booklet_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span> Komunikat Organizacyjny</button></a>
-                        {% elif field_event.entry_booklet %}
-                            <a href="{{ field_event.entry_booklet }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span> Komunikat Organizacyjny</button></a>
-                        {% endif %}
-                        <!-- Guzik kadra -->
-                        {% if field_event.team_file %}
-                            <a href="{{ MEDIA_URL }}{{ field_event.team_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Nasza kadra</button></a>
-                        {% endif %}
-                        </div>
-                        <br><br>
-                        <div id="map" class="center-block"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        {% if not field_event.organizer.name == "None" %}
-                        <h2>Dane organizatora:</h2>
-                        <h4>{{ field_event.organizer.name }}</h4>
-                        <h4>{{ field_event.organizer.street }} - {{ field_event.organizer.postal_code }} {{ field_event.organizer.city }}
-                            ({{ field_event.organizer.country }})</h4>
-                        {% if field_event.organizer.phone_number %}<h4> Telefon {{ field_event.organizer.phone_number }},{% endif %}
-                        {% if field_event.organizer.fax_number %}Fax {{ field_event.organizer.fax_number }}</h4>{% endif %}
-                        <h4>{% if field_event.organizer.email %}e-mail: <a href="mailto:{{ field_event.email }}">{{ field_event.email }}</a>,
-                            {% endif %}
-                            {% if field_event.organizer.site %}strona: <a href="{{ field_event.site }}">{{ field_event.site }}</a>{% endif %}</h4>
-                        {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1>{{ field_event.name }}</h1>
+            </div>
+        </div>
+
+        {% if not field_event.is_from_past %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Do zawodów pozostało:</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 text-center">
+                <div id="buttons">
+                <div class="clock flip-clock-wrapper center-dupper">
                     </div>
                 </div>
             </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="panel panel-default">
-            <div class="panel-heading"><b>DODATKOWE INFORMACJE O ZAWODACH</b></div>
-            <div class="panel-body">
-                <table class="table table-striped">
-                    <tbody>
-                        {% for file in field_event.get_event_files %}
-                        <tr>
-                            <th><img src="{{ file.get_document_icon }}"/></th>
-                            <th><a href="{{ file.url }}">{{ file.label }}</a></th>
-                            <th>{{ file.get_mb_size }}</th>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        {% else %}
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Zawody już się odbyły</h2>
             </div>
         </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h2>Informacje o zawodach:</h2>
+                <h4>Data zawodów: {{ field_event.date_time }}</h4>
+                {% if field_event.place.stadium %}
+                <h4>{{ field_event.place.stadium }} - {{ field_event.place.city }}, {{ field_event.place.country }}</h4>
+                {% else %}
+                <h4>{{ field_event.place.city }}, {{ field_event.place.country }}</h4>
+                {% endif %}
+                <div class="btn-group" role="group" aria-label="...">
+                <!-- Guzik zapisy -->
+                {% if not field_event.is_from_past and field_event.entries %}
+                    <a href="{{ field_event.entries }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
+                {% endif %}
+                <!-- Guzik harmonogram zawodów -->
+                {% if field_event.timetable_file %}
+                    <a href="{{ MEDIA_URL }}{{ field_event.timetable_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>
+                {% elif field_event.timetable %}
+                    <a href="{{ field_event.timetable }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>
+                {% endif %}
+                <!-- Guzik wyniki zawodów -->
+                {% if field_event.is_from_past %}
+                    {% if field_event.results_file %}
+                        <a href="{{ MEDIA_URL }}{{ field_event.results_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> Wyniki</button></a>
+                    {% elif field_event.results %}
+                        <a href="{{ field_event.results }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-list"></span> Wyniki</button></a>
+                    {% endif %}
+                {% endif %}
+                <!-- Guzik komunikat techniczny -->
+                {% if field_event.entry_booklet_file %}
+                    <a href="{{ MEDIA_URL }}{{ field_event.entry_booklet_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span> Komunikat Organizacyjny</button></a>
+                {% elif field_event.entry_booklet %}
+                    <a href="{{ field_event.entry_booklet }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-book"></span> Komunikat Organizacyjny</button></a>
+                {% endif %}
+                <!-- Guzik kadra -->
+                {% if field_event.team_file %}
+                    <a href="{{ MEDIA_URL }}{{ field_event.team_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-user"></span> Nasza kadra</button></a>
+                {% endif %}
+                </div>
+                <br><br>
+                <div id="map" class="center-block"></div>
+            </div>
         </div>
-        {% include "pzwla_events/menu.html" %}
-        <div class="col-md-1"></div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                {% if not field_event.organizer.name == "None" %}
+                <h2>Dane organizatora:</h2>
+                <h4>{{ field_event.organizer.name }}</h4>
+                <h4>{{ field_event.organizer.street }} - {{ field_event.organizer.postal_code }} {{ field_event.organizer.city }}
+                    ({{ field_event.organizer.country }})</h4>
+                {% if field_event.organizer.phone_number %}<h4> Telefon {{ field_event.organizer.phone_number }},{% endif %}
+                {% if field_event.organizer.fax_number %}Fax {{ field_event.organizer.fax_number }}</h4>{% endif %}
+                <h4>{% if field_event.email %}e-mail: <a href="mailto:{{ field_event.email }}">{{ field_event.email }}</a>,
+                    {% endif %}
+                    {% if field_event.site %}strona: <a href="{{ field_event.site }}">{{ field_event.site }}</a>{% endif %}</h4>
+                {% endif %}
+            </div>
+        </div>
     </div>
+</div>
 
-    {% addtoblock "js" %}<script src="{% static "js/counter/flipclock.js" %}"></script>{% endaddtoblock %}
-    {% addtoblock "js" %}<script src="https://maps.googleapis.com/maps/api/js"></script>{% endaddtoblock %}
-    {% addtoblock "js" %}
-        <script type="text/javascript">
-            var clock;
+{% if field_event.get_event_files|length > 0 %}
+<div class="panel panel-default">
+    <div class="panel-heading"><b>DODATKOWE INFORMACJE O ZAWODACH</b></div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tbody>
+                {% for file in field_event.get_event_files %}
+                <tr>
+                    <th><img src="{{ file.get_document_icon }}"/></th>
+                    <th><a href="{{ file.url }}">{{ file.label }}</a></th>
+                    <th>{{ file.get_mb_size }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
 
-            $(document).ready(function() {
+{% include "pzwla_events/fieldevent_detail_scripts.html" %}
 
-                // Grab the current date
-                var currentDate = new Date();
-
-                // Set some date in the past. In this case, it's always been since Jan 1
-                var pastDate  = new Date("{{ miliseconds }}");
-
-                // Calculate the difference in seconds between the future and current date
-                var diff = pastDate.getTime() / 1000 - currentDate.getTime() / 1000;
-
-                // Instantiate a coutdown FlipClock
-                clock = $('.clock').FlipClock(diff, {
-                    clockFace: 'DailyCounter',
-                    countdown: true
-                });
-
-            });
-        </script>
-    {% endaddtoblock %}
-    {% addtoblock "js" %}
-        <script>
-            function initialize() {
-
-                var latLang = new google.maps.LatLng({{ lattitude }}, {{ longitude }});
-
-                var mapCanvas = document.getElementById('map');
-
-                var mapOptions = {
-                    center: latLang,
-                    zoom: 12,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                var mapa = new google.maps.Map(mapCanvas, mapOptions);
-
-                var marker_options = {
-                    position: latLang,
-                    map: mapa,
-                    title: 'stadion'
-                };
-
-                var marker = new google.maps.Marker(marker_options)
-          }
-          google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
-    {% endaddtoblock %}
-{% endblock content %}
-
+{% endblock events-content %}

@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-list">
+            </span>WYNIKI</a>
+        </h4>
+    </div>
+    {% if active_menu %}
+    <div id="collapseTwo" class="panel-collapse collapse in">
+    {% else %}
+    <div id="collapseTwo" class="panel-collapse collapse">
+    {% endif %}
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href="/zawody/wyniki/{{ default_result_year }}/">Wyniki - {{ default_result_year }}</a>
+                        {% if all_results_events_count > 0 %}
+                            <span class="label label-info">{{ all_results_events_count }}</span>
+                        {% else %}
+                            <span class="label label-danger">{{ all_results_events_count }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href=/zawody/wyniki/archiwum/>Wyniki - wszystkie lata</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+{% extends "pzwla_events/skeleton.html" %}
+{% load i18n staticfiles sekizai_tags cms_tags %}
+
+{% block title %}{% page_attribute "page_title" %}{% endblock title %}
+
+{% block events-content %}
+<div class="panel panel-default">
+    <div class="panel-heading"><b>KALENDARZ ZAWODÓW - {{ default_calendar_year }}</b></div>
+    <div class="panel-body">
+        {% if competitions %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Data</th>
+                    <th>Miejsce</th>
+                    <th>Nazwa</th>
+                    <th>Szczegóły</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for event in competitions %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {% if event.date_time|date:"d/m" == event.end_date_time|date:"d/m" %}
+                    <td>{{ event.date_time|date:"d/m" }}</td>
+                    {% else %}
+                    <td>{{ event.date_time|date:"d/m" }} - {{ event.end_date_time|date:"d/m" }}</td>
+                    {% endif %}
+                    <td>{{ event.place.city }}{% ifnotequal event.place.country "Polska" %} ({{ event.place.country }}){% endifnotequal %}</td>
+                    <td>{{ event.name }}</td>
+                    <td><a href="http://{{ request.get_host }}/zawody/{{ event.slug }}" class="btn btn-info" role="button">Info</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            {% if event_category == "Wszystkie zawody" %}
+                <h3>Przepraszamy ale na ten moment nie posiadamy informacji na temat, żadnych zaplanowanych
+                    zawodów na rok {{ defualt_calendar_year }}.</h3>
+            {% else %}
+                <h3>Przepraszamy ale na ten moment nie posiadamy informacji na temat, żadnych zaplanowanych
+                    zawodów z kategorii {{ event_category|lower }} na rok {{ default_calendar_year }}.</h3>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock events-content %}

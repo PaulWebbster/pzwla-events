@@ -31,6 +31,9 @@ class FieldEventAdmin(admin.ModelAdmin):
         ("Data zawodów - Pola wymagane", {
             'classes': ('collapse',),
             'fields': ['date_time', 'end_date_time']}),
+        ("Kontak z organizatorem (e-mail, strona www zawodów)- Pola opcjonalne", {
+            'classes': ('collapse',),
+            'fields': ['email', 'site', 'logo']}),
         ("Informacje o zawodach (zapisy, wyniki, komunikat techniczny, itd.) - Pola opcjonalne", {
             'classes': ('collapse',),
             'fields': ['entries', 'results', 'results_file', 'timetable', 'timetable_file', 'entry_booklet',
