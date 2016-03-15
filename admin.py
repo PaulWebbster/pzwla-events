@@ -2,13 +2,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from models.field_event import FieldEvent
-from models.field_event import EventPlace
-from models.field_event import Organizer
-from models.field_event import EventCategory
-from models.field_event import EventsGlobalSettings
+from models import FieldEvent
+from models import EventPlace
+from models import Organizer
+from models import EventsGlobalSettings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
+
 
 class EventYearListFilter(admin.SimpleListFilter):
     title = _('rok zawodow')
@@ -67,10 +67,6 @@ class OrganizerAdmin(admin.ModelAdmin):
     pass
 
 
-class EventCategoryAdmin(admin.ModelAdmin):
-    pass
-
-
 class EventsGlobalSettingsAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
@@ -84,5 +80,4 @@ class EventsGlobalSettingsAdmin(admin.ModelAdmin):
 admin.site.register(FieldEvent, FieldEventAdmin)
 admin.site.register(EventPlace, EventPlaceAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
-admin.site.register(EventCategory, EventCategoryAdmin)
 admin.site.register(EventsGlobalSettings, EventsGlobalSettingsAdmin)

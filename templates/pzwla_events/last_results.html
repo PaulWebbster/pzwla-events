@@ -1,0 +1,31 @@
+{% load i18n staticfiles cms_tags zawody_extras sekizai_tags %}
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/timeline.css">
+{% endaddtoblock %}
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><b>OSTATNIE WYNIKI</b></div>
+        <div class="panel-body">
+            <ul class="timeline">
+                {% for meeting in last_meetings %}
+                <li>
+                    <div class="timeline-badge primary">{{ meeting.date_time|date:"d M" }}</div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title">{{ meeting.name }}</h4>
+                            <h5>{{ meeting.date_time|date:"d F Y"}}</h5>
+                            <h5>
+                                {{ meeting.place.city }}, {{ meeting.place.country }}
+                            </h5>
+                        </div>
+                        <div class="timeline-body">
+                            <a href="{{ meeting.results }}" class="btn btn-success" role="button">Wyniki</a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+

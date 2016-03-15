@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import tzinfo, timedelta, datetime
-
-from django.views.generic import DetailView
 from django.views.generic.list import ListView
-
-from models import FieldEvent, EventCategory, EventsGlobalSettings
+from ..models import FieldEvent
+from ..models import EventsGlobalSettings
 
 ZERO = timedelta(0)
 
@@ -45,13 +43,13 @@ class CompetitionViewBase(ListView):
         return context
 
     def get_sidebar_context(self, context):
-        calendar_categories = EventCategory.objects.all()
+        # calendar_categories = EventCategory.objects.all()
         calendar_categories_dict = dict()
         results_categories_dict = dict()
 
         default_year_calendar = self.get_year_from_url()
         default_year_results = self.get_year_from_url(type_setting='result')
-
+        '''
         for category in calendar_categories:
             counts = FieldEvent.objects.all().filter(event_category=category,
                                                      date_time__year=default_year_calendar).count()
@@ -60,6 +58,7 @@ class CompetitionViewBase(ListView):
             counts = FieldEvent.objects.all().filter(event_category=category,
                                                      date_time__year=default_year_results).count()
             results_categories_dict[category] = counts
+            '''
 
         context['menu_calendar'] = calendar_categories_dict
         context['menu_results'] = results_categories_dict
@@ -96,10 +95,12 @@ class CompetitionViewBase(ListView):
     def get_menu_special_events(context):
         context['special_events'] = FieldEvent.objects.all().filter(preferable=True)
 
+    '''
     def get_desired_category(self):
         for category in EventCategory.objects.all():
             if category.acronym == self.kwargs['type']:
                 return category
+    '''
 
     def get_year_from_url(self, type_setting="calendar"):
         """
@@ -125,40 +126,6 @@ class CompetitionViewBase(ListView):
         global_settings['results_year'] = EventsGlobalSettings.objects.values("results_year")[0]['results_year']
 
         return global_settings
-
-
-class EventCalendarView(CompetitionViewBase):
-    context_object_name = 'competitions'
-    template_name = 'zawody/events_list.html'
-    model = FieldEvent
-    view_type = 'calendar'
-
-    def get_queryset(self):
-
-        desired_category = self.get_desired_category()
-        default_year = self.get_year_from_url()
-
-        if self.kwargs['type'] is not None:
-            return FieldEvent.objects.all().filter(event_category=desired_category,
-                                                   date_time__year=default_year).order_by("date_time")
-
-        return FieldEvent.objects.all().filter(date_time__year=default_year).order_by("date_time")
-
-    def get_context_data(self, **kwargs):
-        context = super(EventCalendarView, self).get_context_data(**kwargs)
-
-        # Pobranie kategorii przeglądanych wyników zawodów
-        if self.get_desired_category() is not None:
-            context['event_category'] = self.get_desired_category()
-        else:
-            context['event_category'] = "Wszystkie zawody"
-
-        return context
-
-
-class EventDetailView(DetailView):
-    model = FieldEvent
-    context_object_name = 'field_event'
 
 
 class FieldEventDetailsView(CompetitionViewBase):

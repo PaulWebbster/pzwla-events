@@ -4,6 +4,13 @@ from django.db import models
 from datetime import datetime
 
 
+def year_choices():
+    year_choice = []
+
+    for year in range(1980, (datetime.now().year+1)):
+        year_choice.append((year, year))
+
+
 class EventsGlobalSettings(models.Model):
 
     class Meta:
@@ -19,8 +26,4 @@ class EventsGlobalSettings(models.Model):
                                                                                     rok_wyniki=self.results_year)
 
 
-def year_choices():
-    year_choice = []
 
-    for year in range(1980, (datetime.now().year+1)):
-        year_choice.append((year, year))

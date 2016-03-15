@@ -1,0 +1,133 @@
+{% load i18n staticfiles cms_tags zawody_extras sekizai_tags %}
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/counter.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/next-meeting.css">
+{% endaddtoblock %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <b>NAJBLIŻSZE ZAWODY</b>
+    </div>
+    <div class="panel-body">
+        <!-- PRZEWIJACZKA -->
+        <div id="nextMeeting" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {% for event in next_meetings %}
+                    {% if forloop.first %}
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    {% else %}
+                        <li data-target="#myCarousel" data-slide-to="{{ forloop.counter }}"></li>
+                    {% endif %}
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                {% for event in next_meetings %}
+                    {% if forloop.first %}
+                        <div class="item active">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+
+                                    {% if event.logo %}
+                                    <div class="next-meeting-logo">
+                                        <span>
+                                            <img src="{{ MEDIA_URL }}{{ event.logo }}" alt="{{ event.acronym }}"
+                                            class="img-thumbnail pagination-centered text-centered">
+                                        </span>
+
+                                    </div>
+                                    {% else %}
+                                        <br>
+                                        <span><h4>{{ event.name }}</h4></span>
+                                        <br>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="event{{ forloop.counter }}" class="row text-center"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <a href="http://{{ request.get_host }}/zawody/{{ event.acronym }}" class="btn btn-success" role="button">Szczegóły</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    {% if event.logo %}
+                                    <div class="next-meeting-logo">
+                                        <span>
+                                            <img src="{{ MEDIA_URL }}{{ event.logo }}" alt="{{ event.acronym }}"
+                                            class="img-thumbnail pagination-centered text-centered">
+                                        </span>
+                                    </div>
+                                    {% else %}
+                                        <br>
+                                        <span><h4>{{ event.name }}</h4></span>
+                                        <br>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="event{{ forloop.counter }}" class="row text-center"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <a href="http://{{ request.get_host }}/zawody/{{ event.acronym }}" class="btn btn-success" role="button">Szczegóły</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% addtoblock "js" %}
+{% for date in next_meetings_dates %}
+    <script type="text/javascript">
+    $("#event{{ forloop.counter }}")
+    .countdown("{{ date }}", function(event) {
+        $(this).html(
+            event.strftime('' +
+                ''+
+                '<div class="col-md-3">' +
+                    '<div class="panel panel-counter">' +
+                        '<div class="panel-head">DNI</div>' +
+                        '<div class="panel-body">%D</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                    '<div class="panel panel-counter">' +
+                        '<div class="panel-head">GODZ.</div>' +
+                        '<div class="panel-body">%H</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                    '<div class="panel panel-counter">' +
+                        '<div class="panel-head">MIN.</div>' +
+                        '<div class="panel-body">%M</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-3">' +
+                    '<div class="panel panel-counter">' +
+                        '<div class="panel-head">SEK.</div>' +
+                        '<div class="panel-body">%S</div>' +
+                '</div>' +
+                '</div>')
+        );
+    });
+</script>
+{% endfor %}
+{% endaddtoblock %}
