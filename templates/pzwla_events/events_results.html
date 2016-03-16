@@ -1,7 +1,7 @@
 {% extends "pzwla_events/skeleton.html" %}
 {% load i18n staticfiles sekizai_tags cms_tags %}
 
-{% block title %}{% page_attribute "page_title" %} - WYNIKI - {{ event_category|upper }} - {{ events_year }}{% endblock title %}
+{% block title %}{% page_attribute "page_title" %} - WYNIKI I RANKINGI - {{ events_year }}{% endblock title %}
 {% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/bootstrapfixes.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}pzwla_events/styles/main-timeline.css">
@@ -10,10 +10,36 @@
 
 {% block events-content %}
 <div class="panel panel-default">
-    <div class="panel-heading"><b>WYNIKI - {{ event_category|upper }} - {{ events_year }}</b></div>
+    <div class="panel-heading"><b>WYNIKI I RANKINGI - {{ events_year }}</b></div>
     <div class="panel-body">
         <div class="page-header">
-            <h1 id="" style="text-align: center">Wyniki rok {{ events_year }} - {{ event_category }}</h1>
+            <h1 id="Ranks" style="text-align: center">Rankingi rok {{ events_year }}</h1>
+        </div>
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Ranking</th>
+                    <th>Ostatnia modyfikacja</th>
+                    <th>Rozmiar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rank in ranks %}
+                <tr>
+                    <th class="col-md-1"><img src="{{ rank.get_document_icon }}"/></th>
+                    <th class="col-md-6"><a href="{{ rank.url }}">{{ rank.label }}</a></th>
+                    <th class="col-md-3">{{ rank.modified_at }}</th>
+                    <th class="col-md-2">{{ rank.get_mb_size }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="page-header">
+            <h1 id="Results" style="text-align: center">Wyniki rok {{ events_year }}</h1>
         </div>
         <div class="row">
             <div class="col-md-1"></div>

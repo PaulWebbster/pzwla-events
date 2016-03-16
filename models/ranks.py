@@ -3,6 +3,8 @@ from datetime import datetime
 from django.db import models
 from filer.models import Folder
 from django.core.exceptions import ObjectDoesNotExist
+from ..models import EventFile
+
 
 def year_choices():
     year_choice = []
@@ -34,3 +36,11 @@ class Ranks(models.Model):
             self.ranks_folder = folder
 
         super(Ranks, self).save(*args, **kwargs)
+
+    @property
+    def get_rank_files(self):
+        event_files = []
+        for fp in self.ranks_folder.files:
+            event_files.append(EventFile.objects.get(id=fp.id))
+
+        return event_files
