@@ -2,6 +2,7 @@
 from django.views.generic.list import ListView
 from ..models import FieldEvent
 from ..models import EventsGlobalSettings
+from ..models import Ranks
 from datetime import datetime
 
 
@@ -41,6 +42,9 @@ class EventsResultsView(ListView):
 
         # Pobranie roku przeglądanych wyników zawodów
         context['events_year'] = self.get_year_from_url(type_setting=self.view_type)
+
+        # Pobranie rankingow
+        context['ranks'] = Ranks.objects.get(ranks_year=context['events_year']).get_rank_files
 
         context['results_object'] = True
 
