@@ -59,7 +59,7 @@ class FieldEvent(models.Model):
                                                                             " to wyświetlane są zawsze jako wydarzenia "
                                                                             "nadchodzące.")
     position = GeopositionField()
-    event_folder = models.ForeignKey(Folder)
+    event_folder = models.ForeignKey(Folder, related_name='%(class)s_requests_created')
 
     def save(self, *args, **kwargs):
         if not self.end_date_time:
@@ -68,7 +68,8 @@ class FieldEvent(models.Model):
         try:
             self.event_folder
         except:
-            folder = Folder(parent=Folder.objects.all().filter(id=1)[0], name=self.short_name)
+            print Folder.objects.all().filter(id=47)
+            folder = Folder(parent=Folder.objects.all().filter(id=47)[0], name=self.short_name)
             folder.save()
             self.event_folder = folder
 

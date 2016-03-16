@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class PzwlaEventsApp(CMSApp):
-    name = _("Przegladarka zawodow")  # give your app a name, this is required
+    name = _("Przegladarka zawodow nowa")  # give your app a name, this is required
     urls = ["pzwla_events.urls"]  # link your app to url configuration(s)
     app_name = "zawody"
 
