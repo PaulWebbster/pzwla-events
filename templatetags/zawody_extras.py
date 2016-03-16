@@ -73,6 +73,20 @@ def show_sub_menu(**kwargs):
                            'icon': 'glyphicon-time',
                            'href': event.timetable})
 
+    if event.entry_booklet_file:
+        event_menu.append({'name': 'Komunikat organizacyjny',
+                           'icon': 'glyphicon-book',
+                           'href': event.entry_booklet_file.url})
+    elif event.entry_booklet:
+        event_menu.append({'name': 'Komunikat organizacyjny',
+                           'icon': 'glyphicon-book',
+                           'href': event.entry_booklet})
+
+    if event.team_file:
+        event_menu.append({'name': 'Nasz kadra',
+                           'icon': 'glyphicon-user',
+                           'href': event.team_file.url})
+
     context_dict['event_menu'] = event_menu
 
     return context_dict

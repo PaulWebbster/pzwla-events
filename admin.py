@@ -6,6 +6,7 @@ from models import FieldEvent
 from models import EventPlace
 from models import Organizer
 from models import EventsGlobalSettings
+from models import Ranks
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 
@@ -62,6 +63,17 @@ class FieldEventAdmin(admin.ModelAdmin):
     place_city.short_description = "Miasto"
 
 
+class RanksAdmin(admin.ModelAdmin):
+    list_display = ('ranks_year', 'add_files_folder')
+
+    def add_files_folder(self, obj):
+        return format_html('<a href="/admin/filer/folder/%s/list/">Dodaj rankingi</a>' % obj.ranks_folder.id)
+        show_firm_url.allow_tags = True
+
+    add_files_folder.short_description = "Pliki"
+    fields = ('ranks_year',)
+
+
 class EventPlaceAdmin(admin.ModelAdmin):
     pass
 
@@ -84,3 +96,4 @@ admin.site.register(FieldEvent, FieldEventAdmin)
 admin.site.register(EventPlace, EventPlaceAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(EventsGlobalSettings, EventsGlobalSettingsAdmin)
+admin.site.register(Ranks, RanksAdmin)
