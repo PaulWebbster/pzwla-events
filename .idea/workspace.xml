@@ -96,8 +96,8 @@
       <file leaf-file-name="stats.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/stats.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.17513514">
-              <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.35027027">
+              <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
               <folding>
                 <element signature="e#24#70#0" expanded="true" />
               </folding>
@@ -729,7 +729,13 @@
       <option name="project" value="LOCAL" />
       <updated>1458252741999</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Fix for statictics">
+      <created>1458253006182</created>
+      <option name="number" value="00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1458253006182</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -803,7 +809,8 @@
     <MESSAGE value="Add rekordy view" />
     <MESSAGE value="Menu view update" />
     <MESSAGE value="Add statistics model and view" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add statistics model and view" />
+    <MESSAGE value="Fix for statictics" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix for statictics" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1225,8 +1232,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/views/stats.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.17513514">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.35027027">
+          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
           <folding>
             <element signature="e#24#70#0" expanded="true" />
           </folding>

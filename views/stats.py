@@ -13,6 +13,9 @@ class StatisticsView(ListView):
     def get_context_data(self, **kwargs):
         context = super(StatisticsView, self).get_context_data(**kwargs)
 
-        context['stats_files'] = context['stats'][0].get_records_files
+        try:
+            context['stats_files'] = context['stats'][0].get_records_files
+        except IndexError:
+            context['stats_files'] = []
 
         return context
