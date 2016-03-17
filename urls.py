@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^wyniki/archiwum/?$', ArchivalResultsView.as_view()),
     url(r'^wyniki/$', EventsResultsView.as_view()),
     url(r'^wyniki/(?P<year>\w+)/$', EventsResultsView.as_view()),
+    url(r'^informacje-o-zawodach/$', EventInfoView.as_view()),
     url(r'^informacje-o-zawodach/archiwum/$', ArchivalInfoView.as_view()),
     url(r'^informacje-o-zawodach/(?P<year>\w+)/$', EventInfoView.as_view()),
     url(r'^rekordy/?$', RecordsView.as_view()),
