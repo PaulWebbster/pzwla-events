@@ -19,6 +19,6 @@ urlpatterns = [
     url(r'^informacje-o-zawodach/(?P<year>\w+)?$', EventInfoView.as_view()),
     url(r'^non-stadia/?$', TemplateView.as_view(template_name='pzwla_events/non-stadia.html')),
     url(r'^chod-sportowy/?$', TemplateView.as_view(template_name='pzwla_events/chod-sportowy.html')),
-    url(r'^kalkulator-wynikow/?$', TemplateView.as_view(template_name='pzwla_events/kalkulator-wynikow.html')),
+    url(r'^kalkulator-wynikow/?$', TemplateView.as_view(template_name='pzwla_events/kalkulator.html')),
     url(r'^(?P<slug>[-\w]+)/$', EventDetailView.as_view(), name='event-detail'),
 ]
