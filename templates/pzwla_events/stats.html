@@ -1,0 +1,43 @@
+{% extends "pzwla_events/skeleton.html" %}
+{% load i18n staticfiles sekizai_tags cms_tags %}
+
+{% block title %}{% page_attribute "page_title" %} - WYNIKI I RANKINGI - {{ events_year }}{% endblock title %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/bootstrapfixes.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}pzwla_events/styles/main-timeline.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/timeline.css">
+{% endblock extra_css %}
+
+{% block events-content %}
+<div class="panel panel-default">
+    <div class="panel-heading"><b>STATYSTYKI</b></div>
+    <div class="panel-body">
+        <div class="page-header">
+            <h1 id="Ranks" style="text-align: center">STATYSTYKI WETERAŃSKIE</h1>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Rodzaj statystyki</th>
+                    <th>Ostatnia modyfikacja</th>
+                    <th>Rozmiar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in stats_files %}
+                <tr>
+                    <th class="col-md-1"><img src="{{ stat.get_document_icon }}"/></th>
+                    <th class="col-md-6"><a href="{{ stat.url }}">{{ stat.label }}</a></th>
+                    <th class="col-md-3">{{ stat.modified_at }}</th>
+                    <th class="col-md-2">{{ stat.get_mb_size }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock events-content %}

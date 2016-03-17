@@ -7,3 +7,4 @@ from archival_info import *
 from events_results import *
 from events_informations import *
 from records import *
+from stats import *

@@ -8,6 +8,7 @@ from models import Organizer
 from models import EventsGlobalSettings
 from models import Ranks
 from models import Records
+from models import Statistics
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 
@@ -110,9 +111,27 @@ class RecordsAdmin(admin.ModelAdmin):
 
         return False
 
+
+class StatisticsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'add_files_folder',)
+
+    def add_files_folder(self, obj):
+        return format_html('<a href="/admin/filer/folder/%s/list/">Dodaj/modyfikuj statystyki</a>' % obj.folder.id)
+        show_firm_url.allow_tags = True
+
+    add_files_folder.short_description = "Pliki statystyk"
+    fields = ('name',)
+
+    def has_add_permission(self, request):
+        if Statistics.objects.all().count() == 0:
+            return True
+
+        return False
+
 admin.site.register(FieldEvent, FieldEventAdmin)
 admin.site.register(EventPlace, EventPlaceAdmin)
 admin.site.register(Organizer, OrganizerAdmin)
 admin.site.register(EventsGlobalSettings, EventsGlobalSettingsAdmin)
 admin.site.register(Ranks, RanksAdmin)
 admin.site.register(Records, RecordsAdmin)
+admin.site.register(Statistics, StatisticsAdmin)

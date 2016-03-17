@@ -5,3 +5,4 @@ from global_settings import *
 from organizer import *
 from ranks import Ranks
 from records import Records
+from stats import Statistics
