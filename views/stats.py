@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.list import ListView
 from ..models import EventsGlobalSettings
-from ..models import Records
+from ..models import Statistics
 
 
 class StatisticsView(ListView):
     template_name = 'pzwla_events/stats.html'
     view_type = 'stats'
-    model = Records
+    model = Statistics
     context_object_name = 'stats'
 
     def get_context_data(self, **kwargs):
