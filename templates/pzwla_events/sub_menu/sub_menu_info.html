@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-info-sign">
+            </span>INFORMACJE O ZAWODACH</a>
+        </h4>
+    </div>
+    {% if active_menu %}
+    <div id="collapseThree" class="panel-collapse collapse in">
+    {% else %}
+    <div id="collapseThree" class="panel-collapse collapse">
+    {% endif %}
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href="/zawody/informacje-o-zawodach/{{ default_result_year }}/">Informacje - {{ default_result_year }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="glyphicon glyphicon-menu-right"></span><a href=/zawody/informacje-o-zawodach/archiwum/>Informacje archiwalne</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

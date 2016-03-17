@@ -1,0 +1,27 @@
+{% extends "pzwla_events/skeleton.html" %}
+{% load i18n staticfiles sekizai_tags cms_tags %}
+
+{% block title %}{% page_attribute "page_title" %} - wyniki archiwalne{% endblock title %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/bootstrapfixes.css">
+{% endblock extra_css %}
+
+{% block events-content %}
+<div class="panel panel-default">
+    <div class="panel-heading"><b>WYNIKI ARCHIWALNE</b></div>
+    <div class="panel-body">
+        {% if archival_years %}
+            <h4>Poniżej znajduje się lista lat z archiwalnymi informacja o zawodach dostępnymi na stronie:</h4>
+            <div class="list-group">
+            {% for year in archival_years %}
+                <a href="http://{{ request.get_host }}/zawody/informacje-o-zawodach/{{ year }}/" class="list-group-item">{{ year }}</a>
+            {% endfor %}
+                <a href="http://www.pzwla.eu/remository?func=select&id=3" class="list-group-item">2015 i starsze</a>
+            </div>
+        {% else %}
+            <h4>Przepraszamy ale na ten moment nie posiadamy w naszej bazie żadnych wyników. Proszę spróbować
+                ponownie w przyszłości.</h4>
+        {% endif %}
+    </div>
+</div>
+{% endblock events-content %}

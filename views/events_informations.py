@@ -18,7 +18,7 @@ class EventInfoView(ListView):
     def get_context_data(self, **kwargs):
         context = super(EventInfoView, self).get_context_data(**kwargs)
         context['default_calendar_year'] = self.get_year_from_url()
-        context['calendar_object'] = True
+        context['info_object'] = True
 
         return context
 

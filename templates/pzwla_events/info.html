@@ -5,7 +5,7 @@
 
 {% block events-content %}
 <div class="panel panel-default">
-    <div class="panel-heading"><b>KALENDARZ ZAWODÓW - {{ default_calendar_year }}</b></div>
+    <div class="panel-heading"><b>INFORMACJE O ZAWODACH - {{ default_calendar_year }}</b></div>
     <div class="panel-body">
         {% if competitions %}
         <div class="table-responsive">
@@ -37,13 +37,8 @@
             </table>
         </div>
         {% else %}
-            {% if event_category == "Wszystkie zawody" %}
-                <h3>Przepraszamy ale na ten moment nie posiadamy informacji na temat, żadnych zaplanowanych
-                    zawodów na rok {{ defualt_calendar_year }}.</h3>
-            {% else %}
-                <h3>Przepraszamy ale na ten moment nie posiadamy informacji na temat, żadnych zaplanowanych
-                    zawodów z kategorii {{ event_category|lower }} na rok {{ default_calendar_year }}.</h3>
-            {% endif %}
+            <h3>Przepraszamy ale na ten moment nie posiadamy informacji na temat, żadnych zaplanowanych
+                zawodów na rok {{ defualt_calendar_year }}.</h3>
         {% endif %}
     </div>
 </div>
