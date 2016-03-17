@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 from views import ArchivalResultsView
 from views import EventCalendarView
@@ -16,5 +17,6 @@ urlpatterns = [
     url(r'^wyniki/$', EventsResultsView.as_view()),
     url(r'^wyniki/(?P<year>\w+)/$', EventsResultsView.as_view()),
     url(r'^informacje-o-zawodach/(?P<year>\w+)?$', EventInfoView.as_view()),
+    url(r'^non-stadia/?$', TemplateView.as_view(template_name='pzwla_events/non-stadia.html')),
     url(r'^(?P<slug>[-\w]+)/$', EventDetailView.as_view(), name='event-detail'),
 ]
