@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="87500c92-c8e3-421d-ab03-7685b6cb2324" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/pzwla_events/next_meeting.html" afterPath="$PROJECT_DIR$/templates/pzwla_events/next_meeting.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/pzwla_events/skeleton.html" afterPath="$PROJECT_DIR$/templates/pzwla_events/skeleton.html" />
     </list>
     <ignored path="pzwla_events.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -117,11 +117,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="skeleton.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="skeleton.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/pzwla_events/skeleton.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.11986682">
+              <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -157,10 +157,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="next_meeting.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="next_meeting.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/pzwla_events/next_meeting.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57935625">
+            <state vertical-scroll-proportion="-21.75">
               <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
               <folding />
             </state>
@@ -232,8 +232,8 @@
         <option value="$PROJECT_DIR$/urls.py" />
         <option value="$PROJECT_DIR$/views/stats.py" />
         <option value="$PROJECT_DIR$/templatetags/zawody_extras.py" />
-        <option value="$PROJECT_DIR$/templates/pzwla_events/skeleton.html" />
         <option value="$PROJECT_DIR$/templates/pzwla_events/next_meeting.html" />
+        <option value="$PROJECT_DIR$/templates/pzwla_events/skeleton.html" />
       </list>
     </option>
   </component>
@@ -737,14 +737,20 @@
       <option name="project" value="LOCAL" />
       <updated>1458261476659</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Add next meetings counter fix 2&#10;">
+      <created>1458261590555</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1458261590555</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1055" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18978103" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18978103" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -816,7 +822,8 @@
     <MESSAGE value="Informacje o zawodach url fix" />
     <MESSAGE value="Add next meetings counter" />
     <MESSAGE value="Add next meetings counter fix 1&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add next meetings counter fix 1&#10;" />
+    <MESSAGE value="Add next meetings counter fix 2&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add next meetings counter fix 2&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1178,14 +1185,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/pzwla_events/skeleton.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.5">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../pzwla-events-plugin/cms_plugins.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5189681">
@@ -1214,6 +1213,14 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/pzwla_events/next_meeting.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-21.75">
+          <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/pzwla_events/events_results.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-77.25">
@@ -1222,10 +1229,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/pzwla_events/next_meeting.html">
+    <entry file="file://$PROJECT_DIR$/templates/pzwla_events/skeleton.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57935625">
-          <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
+        <state vertical-scroll-proportion="0.11986682">
+          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
           <folding />
         </state>
       </provider>

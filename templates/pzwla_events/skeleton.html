@@ -1,10 +1,10 @@
 {% extends "pzwla_base.html" %}
 {% load i18n staticfiles sekizai_tags cms_tags zawody_extras %}
 
-{% block extra_css %}
+{% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/counter.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/next-meeting.css">
-{% endblock %}
+{% endaddtoblock %}
 
 {% block content %}
     <div class="row">
