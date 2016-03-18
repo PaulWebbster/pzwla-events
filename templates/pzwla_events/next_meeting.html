@@ -1,10 +1,5 @@
 {% load i18n staticfiles cms_tags zawody_extras sekizai_tags %}
 
-{% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/counter.css">
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/next-meeting.css">
-{% endaddtoblock %}
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <b>NAJBLIŻSZE ZAWODY</b>
@@ -131,3 +126,4 @@
 </script>
 {% endfor %}
 {% endaddtoblock %}
+

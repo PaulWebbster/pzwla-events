@@ -6,6 +6,9 @@ from datetime import datetime
 from django.contrib.sites.models import Site
 from django.utils import timezone
 from ..models import EventsGlobalSettings
+from ..models import FieldEvent
+from ..models import utc
+from pzwla_events_plugin.models import ZawodyPlugin
 
 register = template.Library()
 
@@ -132,3 +135,45 @@ def show_info_menu(**kwargs):
         context_dict['active_menu'] = False
 
     return context_dict
+
+
+@register.inclusion_tag("pzwla_events/next_meeting.html", takes_context=True)
+def show_next_meetings(context, **kwargs):
+    settings = ZawodyPlugin.objects.all()[0]
+    events = list()
+    events_number = 0
+
+    if settings.add_preferable:
+        events_query = FieldEvent.objects.all().filter(preferable=True, date_time__gt=datetime.now(tz=utc))\
+            .order_by('date_time')
+        for event in events_query:
+            events.append(event)
+        events_number = len(events)
+
+    for event in FieldEvent.objects.all().filter(date_time__gt=datetime.now(tz=utc)).order_by('date_time'):
+        if event in events:
+            continue
+        if events_number > settings.events_number:
+            break
+
+        events.append(event)
+        events_number += 1
+
+    events.sort(key=lambda x: x.date_time)
+
+    dates = list()
+
+    for event in events:
+        dates.append(event.date_time.strftime("%Y/%m/%d"))
+
+    context['next_meetings'] = events
+    context['next_meetings_dates'] = dates
+
+    sezikai_ctx_var = getattr(settings, 'SEKIZAI_VARNAME', 'SEKIZAI_CONTENT_HOLDER')
+    attrs = {
+        'next_meetings': events,
+        'next_meetings_dates': dates,
+        sezikai_ctx_var: context[sezikai_ctx_var]
+    }
+
+    return attrs

@@ -1,5 +1,10 @@
 {% extends "pzwla_base.html" %}
-{% load i18n staticfiles sekizai_tags cms_tags %}
+{% load i18n staticfiles sekizai_tags cms_tags zawody_extras %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/counter.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}styles/next-meeting.css">
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -13,6 +18,9 @@
         <!-- SIDEBAR -->
         <div class="col-md-3">
             {% include "pzwla_events/menu.html" %}
+            {% show_next_meetings %}
+            {% block next-meetings %}
+            {% endblock next-meetings %}
         </div>
         <!-- RIGHT MARGIN -->
         <div class="col-md-1"></div>
