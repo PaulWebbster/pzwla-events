@@ -8,3 +8,4 @@ from events_results import *
 from events_informations import *
 from records import *
 from stats import *
+from ranks import RanksView

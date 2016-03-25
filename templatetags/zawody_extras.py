@@ -123,6 +123,20 @@ def show_results_menu(**kwargs):
     return context_dict
 
 
+@register.inclusion_tag("pzwla_events/sub_menu/sub_menu_ranks.html")
+def show_ranks_menu(**kwargs):
+    context_dict = dict()
+
+    context_dict['default_result_year'] = EventsGlobalSettings.objects.all()[0].results_year
+
+    if kwargs['ranks']:
+        context_dict['active_menu'] = True
+    else:
+        context_dict['active_menu'] = False
+
+    return context_dict
+
+
 @register.inclusion_tag("pzwla_events/sub_menu/sub_menu_info.html")
 def show_info_menu(**kwargs):
     context_dict = dict()

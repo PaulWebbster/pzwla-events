@@ -10,6 +10,7 @@ from views import EventDetailView
 from views import EventInfoView
 from views import RecordsView
 from views import StatisticsView
+from views import RanksView
 
 urlpatterns = [
     #url(r'^(?P<acronym>[A-Z]{4,11}\d{4}[A-Z]{2,3})/', FieldEventDetailsView.as_view()),
@@ -19,6 +20,8 @@ urlpatterns = [
     url(r'^wyniki/archiwum/?$', ArchivalResultsView.as_view()),
     url(r'^wyniki/$', EventsResultsView.as_view()),
     url(r'^wyniki/(?P<year>\w+)/$', EventsResultsView.as_view()),
+    url(r'^rankingi/$', RanksView.as_view()),
+    url(r'^rankingi/(?P<year>\w+)/$', RanksView.as_view()),
     url(r'^informacje-o-zawodach/$', EventInfoView.as_view()),
     url(r'^informacje-o-zawodach/archiwum/$', ArchivalInfoView.as_view()),
     url(r'^informacje-o-zawodach/(?P<year>\w+)/$', EventInfoView.as_view()),
