@@ -39,7 +39,7 @@ class FieldEventAdmin(admin.ModelAdmin):
             'fields': ['email', 'site', 'logo']}),
         ("Informacje o zawodach (zapisy, wyniki, komunikat techniczny, itd.) - Pola opcjonalne", {
             'classes': ('collapse',),
-            'fields': ['entries', 'results', 'results_file', 'timetable', 'timetable_file', 'entry_booklet',
+            'fields': ['entries', 'entries_file', 'results', 'results_file', 'timetable', 'timetable_file', 'entry_booklet',
                        'entry_booklet_file', 'team_file']}),
         ("Mapka - wskazówki dojazdu na miejsce zawodów", {
             'classes': ('collapse',),

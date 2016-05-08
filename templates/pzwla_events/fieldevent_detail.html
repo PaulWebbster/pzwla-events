@@ -61,9 +61,13 @@
                 {% endif %}
                 <div class="btn-group" role="group" aria-label="...">
                 <!-- Guzik zapisy -->
-                {% if not field_event.is_from_past and field_event.entries %}
+                {% if not field_event.is_from_past %}
+                    {% if field_event.entries %}
                     <a href="{{ field_event.entries }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
-                {% endif %}
+                    {% elif field_event.entries_file %}
+                    <a href="{{ MEDIA_URL }}{{ field_event.entries_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span>Karta zgłoszenia</button></a>
+                    {% endif %}
+                    {% endif %}
                 <!-- Guzik harmonogram zawodów -->
                 {% if field_event.timetable_file %}
                     <a href="{{ MEDIA_URL }}{{ field_event.timetable_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>

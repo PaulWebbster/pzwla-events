@@ -50,7 +50,7 @@
                 {% endif %}
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h2>Informacje o zawodach:</h2>
+                        <h2>Informacje o zawodach: (to ten plik)</h2>
                         <h4>Data zawodów: {{ field_event.date_time }}</h4>
                         {% if event_place.stadium %}
                         <h4>{{ event_place.stadium }} - {{ event_place.city }}, {{ event_place.country }}</h4>
@@ -59,9 +59,12 @@
                         {% endif %}
                         <div class="btn-group" role="group" aria-label="...">
                         <!-- Guzik zapisy -->
-                        {% if not field_event.is_from_past and field_event.entries %}
-                            <a href="{{ field_event.entries }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
-                        {% endif %}
+                            {% if field_event.entries %
+                                <a href="{{ field_event.entries }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
+                            {% elif field_event.entries_file %}
+                            <a href="{{ MEDIA_URL }}{{ field_event.entries_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
+                            {% endif %}
+                            <a href="{{ MEDIA_URL }}{{ field_event.entries_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-check"></span> Zapisy</button></a>
                         <!-- Guzik harmonogram zawodów -->
                         {% if field_event.timetable_file %}
                             <a href="{{ MEDIA_URL }}{{ field_event.timetable_file }}"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-time"></span> Program</button></a>

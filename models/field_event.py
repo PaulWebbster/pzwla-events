@@ -34,7 +34,8 @@ class FieldEvent(models.Model):
     logo = models.ImageField("Logo zawodów", blank=True)
     site = models.CharField("Strona zawodów", max_length=300, blank=True)
     email = models.EmailField("e-mail", blank=True)
-    entries = models.CharField("Zapisy - link do strony z zapisami", max_length=300, blank=True)
+    entries = models.CharField("Zapisy/karta zgloszenia - link do strony z zapisami/karty", max_length=300, blank=True)
+    entries_file = models.FileField("Karta zgloszenia plik", blank=True)
     results = models.CharField("Wyniki - link do strony z wynikami", max_length=300, blank=True)
     results_file = models.FileField("Plik z wynikami", blank=True, help_text="Jeżeli zamieszczony zostanie plik z "
                                                                              "wynikami to będzie on wyświetlany na "
@@ -46,8 +47,8 @@ class FieldEvent(models.Model):
                                                                                     " wyświetlany w zastępstwie linku "
                                                                                     "do harmonogramu na stronie "
                                                                                     "organizatora/zawodów.")
-    entry_booklet = models.CharField("Komunikat techniczny - link do strony z komunikatem", max_length=300, blank=True)
-    entry_booklet_file = models.FileField("Plik z komunikatem technicznym", blank=True,
+    entry_booklet = models.CharField("Komunikat organizacyjny - link do strony z komunikatem", max_length=300, blank=True)
+    entry_booklet_file = models.FileField("Plik z komunikatem organizacyjnym", blank=True,
                                           help_text="Jeżeli zostanie zamieszczony plik z komunikatem technicznym to "
                                                     "będzie on wyświetlany w zastępstwie linku do komunikatu "
                                                     "technicznego na stronie organizatora/zawodów.")
