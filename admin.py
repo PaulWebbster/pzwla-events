@@ -116,7 +116,7 @@ class StatisticsAdmin(admin.ModelAdmin):
     list_display = ('name', 'add_files_folder',)
 
     def add_files_folder(self, obj):
-        return format_html('<a href="/admin/filer/folder/%s/list/">Dodaj/modyfikuj statystyki</a>' % obj.folder.id)
+        return format_html('<a href="/admin/filer/folder/%s/list/">Dodaj/modyfikuj statystyki</a>' % 107)
         show_firm_url.allow_tags = True
 
     add_files_folder.short_description = "Pliki statystyk"
