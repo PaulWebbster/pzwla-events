@@ -23,8 +23,8 @@ class EventsResultsView(ListView):
 
         for i, month in enumerate(self.months, start=1):
             events = FieldEvent.objects.all().filter(date_time__year=result_year, date_time__lte=datetime.today(),
-                                                     date_time__month=i, )\
-                                             .exclude(Q(entry_booklet='') & Q(entry_booklet_file=''))\
+                                                     date_time__month=i)\
+                                             .exclude(Q(results='') & Q(results_file=''))\
                                              .order_by("date_time")
             if len(events) != 0:
                 months_events[month] = events
