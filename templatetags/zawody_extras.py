@@ -101,6 +101,10 @@ def show_calendar_menu(**kwargs):
 
     context_dict['default_calendar_year'] = EventsGlobalSettings.objects.all()[0].calendar_year
 
+    context_dict['show_next_year'] = False
+    if FieldEvent.objects.filter(date_time__year = context_dict['default_calendar_year']+1):
+        context_dict['show_next_year'] = True
+
     if kwargs['calendar']:
         context_dict['active_menu'] = True
     else:
