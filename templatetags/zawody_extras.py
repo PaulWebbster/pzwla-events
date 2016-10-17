@@ -145,7 +145,11 @@ def show_ranks_menu(**kwargs):
 def show_info_menu(**kwargs):
     context_dict = dict()
 
-    context_dict['default_result_year'] = EventsGlobalSettings.objects.all()[0].results_year
+    context_dict['default_calendar_year'] = EventsGlobalSettings.objects.all()[0].calendar_year
+
+    context_dict['show_next_year'] = False
+    if FieldEvent.objects.filter(date_time__year = context_dict['default_calendar_year']+1):
+        context_dict['show_next_year'] = True
 
     if kwargs['info']:
         context_dict['active_menu'] = True
